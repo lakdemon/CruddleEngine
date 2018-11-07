@@ -1,0 +1,10 @@
+{
+	"texture": 		    "data/images/door.png",
+	"is_solid": 	    "false"		         ,
+	"is_transparent":   "false",
+	"is_usable":        "true",
+	"usable_texture":   "data/images/door_selected.png",
+	"x_usable": 		[640,640,715,715],
+	"y_usable":		    [390,235,195,355],
+	"action": 	        "state_machine.lastState().level = Level()"
+}

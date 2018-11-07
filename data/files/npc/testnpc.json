@@ -1,0 +1,9 @@
+{
+	"Name":              "Суккуб",
+	"Dialog_file":		 "data/files/dialogs/succubus.json",
+	"Dialog_background": "data/images/default_dialog_background.png",
+	"Dialog_icon":       "data/dialog_icon.png",
+	"Dialog_label": 	 "test_label",
+	"Texture_file": 	 "data/images/test_succub_npc.png",
+	"Action":            "state_machine.addState(Dialog(self))"
+} 

@@ -1,0 +1,10 @@
+{
+	"texture": 		  "data/images/test_game_object_fence.png",
+	"is_solid": 	  "true"							      ,
+	"x_solid": [45,3,1669,1712],
+	"y_solid": [1365,1335,361,400],
+	"is_transparent": "true",
+	"x_transparent": [3,14,1677,1708,1708],
+	"y_transparent": [1335,996,40,64,395]	,						  
+	"transparent_texture": "data/images/test_game_object_fence_transparent.png"
+}

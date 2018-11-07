@@ -1,0 +1,12 @@
+{
+	"level_name": "test_level",
+	"game_objects":
+	[
+		"data/files/configs/fence.json",
+		"data/files/configs/test_game_object.json"
+	],
+	"npc":
+	[
+		"data/files/npc/testnpc.json"
+	]
+}

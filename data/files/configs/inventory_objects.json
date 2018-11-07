@@ -1,0 +1,13 @@
+{
+	"inventory_objects":
+	[
+		{
+			"obj_code": 1,
+			"name": "Цветок жизни",
+			"description": "Восстанавливает 5 HP",
+			"text_rect": [6,6,52,52],
+			"action": "state_machine.states[len(state_machine.states)-2].player.recoverHP(5)"
+		}
+
+	]
+}

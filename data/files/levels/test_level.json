@@ -1,0 +1,13 @@
+{
+	"level_name": "Dev room",
+	"game_objects":
+	[
+		"data/files/configs/fence.json",
+		"data/files/configs/test_game_object.json",
+		"data/files/configs/flower_of_life.json"
+	],
+	"npc":
+	[
+		"data/files/npc/testnpc.json"
+	]
+}

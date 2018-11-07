@@ -1,0 +1,34 @@
+{
+	"label1":
+	{
+		"text": "Эта фраза будет отображаться как фраза собеседника",
+		"answers": 
+		[
+			{"answer_text": "вариант ответа 1", "action": "Это действие будет выполнено при выборе ответа 1"},
+			{"answer_text": "вариант ответа 2", "action": "Это действие будет выполнено при выборе ответа 2"},
+			{"answer_text": "вариант ответа 3", "action": "Это действие будет выполнено при выборе ответа 3"}
+		]
+	},
+
+	"test_label":
+	{
+		"text": "Зря ты забрел сюда, парниша",
+		"answers":
+		[
+			{"answer_text": "А ну-ка повтори", "action": "self.dialog.next_label='test_label'"},
+			{"answer_text": "Я ухожу", "action":"self.dialog.closeDialog()"},
+			{"answer_text": "И это все?", "action": "self.dialog.next_label = 'test_label2'"}
+		]
+	},
+
+	"test_label2":
+	{
+		"text": "Да я сожру твою душу, паскуда",
+		"answers":
+		[
+			{"answer_text": "Понял, ухожу", "action": "self.dialog.closeDialog()"},
+			{"answer_text": "Не понял, повтори", "action": "self.dialog.next_label = 'test_label'"}
+		]
+	}
+
+}

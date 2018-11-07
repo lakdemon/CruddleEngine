@@ -1,0 +1,11 @@
+{
+	"texture": "data/images/test_solid_texture.png",
+	"x_coordinates":
+	[
+		650, 838, 885, 424, 390, 680
+	],
+	"y_coordinates":
+	[
+		172, 187, 635, 616, 470, 497
+	]
+}

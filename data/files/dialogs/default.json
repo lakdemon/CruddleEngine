@@ -1,0 +1,10 @@
+{
+	"default":
+	{
+		"text": "Я не буду с вами говорить",
+		"answers": 
+		[
+			{"answer_text": "Уйти", "action": "state_machine.removeThisState()"}
+		]
+	}
+}

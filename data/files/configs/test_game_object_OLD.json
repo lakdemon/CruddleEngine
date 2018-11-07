@@ -1,0 +1,9 @@
+{
+	"texture": 		  "data/images/test_game_object.png",
+	"is_solid": 	  "true"							  ,
+	"x_solid": 		  [117, 1170, 2085, 1030]	  	      ,
+	"y_solid": 		  [1422, 815, 1350, 1960]	  		  ,
+	"is_transparent": "true"							  ,
+	"x_transparent":  [117, 585, 1581, 2159, 2084, 2084, 1170 , 117 ],
+	"y_transparent":  [972, 604, 34,   1019, 1066, 1350, 815  , 1422]	  
+}

@@ -1,0 +1,14 @@
+{
+	"level_name": "First room",
+	"game_objects":
+	[   
+		"data/files/configs/first_room_background.json",
+		"data/files/configs/first_room_bed.json",
+		"data/files/configs/first_room_commodue.json",
+		"data/files/configs/first_room_table.json",
+		"data/files/configs/first_room_door.json"
+	],
+	"npc":
+	[
+	]
+}
