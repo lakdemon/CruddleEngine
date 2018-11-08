@@ -12,7 +12,7 @@ background_color2 = 84,85,78
 window_size = 1280 ,800
 window = sf.RenderWindow(sf.VideoMode(*window_size), "Test",sf.Style.CLOSE)
 window.vertical_synchronization = True
-image = sf.Image.from_file("icon2.png")
+image = sf.Image.from_file("icon.png")
 window.set_icon(image.width, image.height, bytes(image.pixels))    
 move_keys = [sf.Keyboard.W,sf.Keyboard.S,sf.Keyboard.A,sf.Keyboard.D]
 down_keys = [sf.Keyboard.S,sf.Keyboard.DOWN]
