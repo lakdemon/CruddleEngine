@@ -2,9 +2,9 @@
 	"level_name": "Dev room",
 	"game_objects":
 	[
-		"data/files/configs/fence.json",
-		"data/files/configs/test_game_object.json",
-		"data/files/configs/flower_of_life.json"
+		{"object": "data/files/configs/fence.json",            "position":[-50,0]},
+		{"object": "data/files/configs/test_game_object.json", "position":[0,0]},
+		{"object": "data/files/configs/flower_of_life.json",   "position":[400,0]}
 	],
 	"npc":
 	[

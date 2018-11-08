@@ -2,11 +2,11 @@
 	"level_name": "First room",
 	"game_objects":
 	[   
-		"data/files/configs/first_room_background.json",
-		"data/files/configs/first_room_bed.json",
-		"data/files/configs/first_room_commodue.json",
-		"data/files/configs/first_room_table.json",
-		"data/files/configs/first_room_door.json"
+		{"object": "data/files/configs/first_room_background.json", "position": [0,0]},
+		{"object": "data/files/configs/first_room_bed.json",        "position": [0,0]},
+		{"object": "data/files/configs/first_room_commodue.json",   "position": [0,0]},
+		{"object": "data/files/configs/first_room_table.json",      "position": [0,0]},
+		{"object": "data/files/configs/first_room_door.json",       "position": [0,0]}
 	],
 	"npc":
 	[
