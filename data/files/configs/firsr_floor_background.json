@@ -1,0 +1,6 @@
+{
+	"texture": "data/images/first_floor.png",
+	"is_solid": "false",
+	"is_transparent": "false",
+	"is_usable" : "false"
+}
