@@ -23,10 +23,18 @@ confirm_keys = [sf.Keyboard.SPACE,sf.Keyboard.RETURN]
 
 clock = sf.Clock()
 clock.restart()
+
+
 #------------------------------------------------------------------------------
 
 def teleport(level_name):
     state_machine.states[len(state_machine.states)-2].level.load("data/files/levels/"+level_name+".json")
+    #
+def PLAYER():
+    try:
+        return state_machine.lastState().player
+    except Exception as e:
+       return state_machine.states[len(state_machine.states)-2].player
     #
 def group(iterable, count):
     return zip(*[iter(iterable)] * count)
@@ -59,11 +67,12 @@ def default_event_handler(event):
 
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
-class Loot(object):
-    """docstring for Loot"""
+class Trigger(object):
+    """docstring for Trigger"""
     def __init__(self, arg):
-        super(Loot, self).__init__()
-        self.arg = arg   
+        super(Trigger, self).__init__()
+        self.arg = arg
+
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
 
@@ -421,7 +430,7 @@ class InventoryState(State):
         row = 0
         for c,obj in enumerate(self.inventory,0):
             counter+=1
-            if counter >= 10:
+            if counter >= group_by:
                 counter=0
                 row+=1
             obj.sprite.position = [begin['x']+counter*self.offset,begin['y']+self.offset*row]
@@ -790,7 +799,7 @@ class StateMachine(object):
 
 class GameObject(sf.Drawable,Usable):                                       
     """docstring for GameObject"""
-    def __init__(self,config_file="data/files/configs/test_game_object.json",position=[0,0]):
+    def __init__(self,config_file="data/files/configs/test_game_object.json",position=[0,0],state="deault_state"):
         super(GameObject, self).__init__()
         self.transparent    = False
         self.solid          = False
@@ -798,8 +807,16 @@ class GameObject(sf.Drawable,Usable):
         self.is_solid       = False
         self.is_transparent = False
         self.is_usable      = False
+        self.file = config_file
+        self.state = state 
         with open(config_file) as data_file:    
             data = json.load(data_file)
+
+        try:
+            data = data[state]
+        except Exception as e:
+            print("Object have no states")
+
         self.texture = sf.Texture.from_file(data['texture'])
         self.sprite = sf.Sprite(self.texture)
         
@@ -855,6 +872,7 @@ class GameObject(sf.Drawable,Usable):
             if inPolygon(x_pos,y_pos,self.x_solid,self.y_solid):
                 player.sprite.move([player.x_speed*time*player.movespeed*(-1),player.y_speed*time*player.movespeed*(-1)])
 
+
         x_pos = player.magic_hand.position.x
         y_pos = player.magic_hand.position.y
 
@@ -902,6 +920,23 @@ class GameObject(sf.Drawable,Usable):
         if self.usable:
             self.x_usable = [x+x_offset for x in self.x_usable]
             self.y_usable = [y+y_offset for y in self.y_usable]
+
+    def setState(self,state):
+        with open(slelf.file) as data_file:    
+            data = json.load(data_file)
+
+        try:
+            data = data[state]
+            """
+
+
+
+                code need here
+
+
+            """
+        except Exception as e:
+            print("Object have no states")        
 
 #------------------------------------------------------------------------------
 

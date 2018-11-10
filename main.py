@@ -6,7 +6,6 @@ from crudleEngine import *
 #------------------------------------------------------------------------------
 def main():
 
-    #print("hi") or exit()
     state_machine.setState(State("main_menu"))
     clock = sf.Clock()
     while window.is_open:

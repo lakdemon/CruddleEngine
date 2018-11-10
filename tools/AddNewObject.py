@@ -2,7 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import sys
-from PyQt5.QtWidgets import *
+from PySide2.QtWidgets import *
+from PySide2.QtCore import *
+import json
+
 import signal
 
 def sigint_handler():
@@ -10,6 +13,16 @@ def sigint_handler():
     sys.stderr.write('\r')
     QApplication.quit()
 
+
+class jsonFile(object):
+	"""docstring for testobject"""
+	
+	def __init__(self):
+		self.is_usable = False
+		self.is_solid  = False
+		self.is_transparent = False
+
+obj = jsonFile()
 
 class TITLE(QWidget):
 	def __init__(self):
@@ -68,29 +81,66 @@ class USABLE(QWidget):
 		self.initUI()
 
 	def initUI(self):
-		check = QCheckBox("Usable?")
-		addP  = QPushButton("Добавить точку")
-		vbox  = QVBoxLayout()
+		self.rightFrame = QFrame(self)
+		self.rightFrame.setFrameShape(QFrame.Box)
+		self.rightFrame.setFrameShadow(QFrame.Sunken)
+
+		self.check = QCheckBox("Usable?")
+		self.check.stateChanged.connect(self.Clicked)
+		self.addP  = QPushButton("Добавить точку")
+		vbox  = QVBoxLayout(self.rightFrame)
 
 		hhbox = QHBoxLayout()
-		lbl = QLabel("Текстура(usable):")
-		inpt  = QLineEdit()
-		openButton = QPushButton("") 
+		self.lbl = QLabel("Текстура(usable):")
+		self.inpt  = QLineEdit()
+		self.openButton = QPushButton("") 
 		
-		hhbox.addWidget(lbl)
-		hhbox.addWidget(inpt)
-		hhbox.addWidget(openButton)
+		hhbox.addWidget(self.lbl)
+		hhbox.addWidget(self.inpt)
+		hhbox.addWidget(self.openButton)
 
-		vbox.addWidget(check)
+
+		self.lbl.hide()
+		self.inpt.hide()
+		self.openButton.hide()
+		self.addP.hide()
+		#self.line = QHLine()
+
+		vbox.addWidget(self.check)
 		vbox.addLayout(hhbox)
-		vbox.addWidget(addP)
+		vbox.addWidget(self.addP)
+		
 
 		hbox = QHBoxLayout()
+
 		#vbox.addStretch(1)
 		hbox.addLayout(vbox)
+		hbox.addWidget(self.rightFrame)
         
 		self.setLayout(hbox) 
-		
+
+	def Clicked(self,state):
+		if state == Qt.Checked:
+			self.lbl.show()
+			self.inpt.show()
+			self.openButton.show()
+			self.addP.show()
+			self.hidden = False
+			obj.is_usable = True
+		else:
+			self.lbl.hide()
+			self.inpt.hide()
+			self.openButton.hide()
+			self.addP.hide()			
+			self.hidden = True
+			obj.is_usable = False		
+				
+	def HLine(self):
+		toto = QFrame()
+		toto.setFrameShape(QFrame.HLine)
+		toto.setFrameShadow(QFrame.Sunken)
+		return toto
+
 
 class TRANSPARENT(QWidget):
 	def __init__(self):
@@ -160,23 +210,41 @@ class Example(QWidget):
         titl = TITLE()
         trns = TRANSPARENT()
         sld  = SOLID()
+        none1= QLabel()
+        none2= QLabel()
+        final= QPushButton("Создать")
+        lasth= QHBoxLayout()
+
+        lasth.addWidget(none1)
+        lasth.addWidget(final)
+        lasth.addWidget(none2)
 
         vbox = QVBoxLayout()
         vbox.addWidget(titl)
         vbox.addWidget(tex)
+
         vbox.addWidget(usbl)
         vbox.addWidget(trns)
         vbox.addWidget(sld)
+        vbox.addLayout(lasth)
 
         hbox = QHBoxLayout()
         #hbox.addStretch(1)
         hbox.addLayout(vbox)
         
+        final.clicked.connect(self.buttonClicked)
+
         self.setLayout(hbox)    
         
         #self.setGeometry(300, 300, 300, 150)
         self.setWindowTitle('Buttons')    
         self.show()
+
+
+    def buttonClicked(self):
+    	s = json.dumps(obj, default=lambda x: x.__dict__)
+    	print(s)
+
         
         
 if __name__ == '__main__':
