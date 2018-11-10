@@ -24,6 +24,7 @@ class jsonFile(object):
 
 obj = jsonFile()
 
+
 class TITLE(QWidget):
 	def __init__(self):
 		super().__init__()
@@ -54,15 +55,15 @@ class TEXTURE(QWidget):
     def initUI(self):
 
         lbl = QLabel("Текстура")
-        openButton = QPushButton("")
-        openButton.setMaximumWidth(50)
-        url = QLineEdit()
+        self.openButton = QPushButton("")
+        self.openButton.setMaximumWidth(50)
+        self.url = QLineEdit()
 
         hbox = QHBoxLayout()
         #hbox.addStretch(1)
         hbox.addWidget(lbl)
-        hbox.addWidget(url)
-        hbox.addWidget(openButton)
+        hbox.addWidget(self.url)
+        hbox.addWidget(self.openButton)
 
         vbox = QVBoxLayout()
         #vbox.addStretch(1)
@@ -86,6 +87,7 @@ class USABLE(QWidget):
 		self.rightFrame.setFrameShadow(QFrame.Sunken)
 
 		self.check = QCheckBox("Usable?")
+		self.check.setStyleSheet("font-weight: 550")
 		self.check.stateChanged.connect(self.Clicked)
 		self.addP  = QPushButton("Добавить точку")
 		vbox  = QVBoxLayout(self.rightFrame)
@@ -135,11 +137,6 @@ class USABLE(QWidget):
 			self.hidden = True
 			obj.is_usable = False		
 				
-	def HLine(self):
-		toto = QFrame()
-		toto.setFrameShape(QFrame.HLine)
-		toto.setFrameShadow(QFrame.Sunken)
-		return toto
 
 
 class TRANSPARENT(QWidget):
@@ -148,32 +145,55 @@ class TRANSPARENT(QWidget):
 		self.initUI()
 
 	def initUI(self):
-		check = QCheckBox("Transparent?")
-		addP  = QPushButton("Добавить точку")
-		vbox  = QVBoxLayout()
-		addP.setEnabled(False)
+		self.rightFrame = QFrame(self)
+		self.rightFrame.setFrameShape(QFrame.Box)
+		self.rightFrame.setFrameShadow(QFrame.Sunken)
 
-		hhbox = QHBoxLayout()
-		lbl = QLabel("Текстура(transparent):")
-		inpt  = QLineEdit()
-		openButton = QPushButton("") 
-		lbl.setEnabled(False)
-		inpt.setEnabled(False)
-		openButton.setEnabled(False)
+		self.check = QCheckBox("Transparent?")
+		self.check.setStyleSheet("font-weight: 550")
+		self.check.stateChanged.connect(self.Clicked)
+		self.addP  = QPushButton("Добавить точку")
+		self.vbox  = QVBoxLayout(self.rightFrame)
+		self.hhbox = QHBoxLayout()
+		self.lbl = QLabel("Текстура(transparent):")
+		self.inpt  = QLineEdit()
+		self.openButton = QPushButton("") 
+		
+		self.lbl.hide()
+		self.inpt.hide()
+		self.openButton.hide()
+		self.addP.hide()
 
-		hhbox.addWidget(lbl)
-		hhbox.addWidget(inpt)
-		hhbox.addWidget(openButton)
+		self.hhbox.addWidget(self.lbl)
+		self.hhbox.addWidget(self.inpt)
+		self.hhbox.addWidget(self.openButton)
 
-		vbox.addWidget(check)
-		vbox.addLayout(hhbox)
-		vbox.addWidget(addP)
+		self.vbox.addWidget(self.check)
+		self.vbox.addLayout(self.hhbox)
+		self.vbox.addWidget(self.addP)
 
-		hbox = QHBoxLayout()
+		self.hbox = QHBoxLayout()
 		#vbox.addStretch(1)
-		hbox.addLayout(vbox)
+		self.hbox.addLayout(self.vbox)
+		self.hbox.addWidget(self.rightFrame)
         
-		self.setLayout(hbox) 
+		self.setLayout(self.hbox) 
+
+	def Clicked(self,state):
+		if state == Qt.Checked:
+			self.lbl.show()
+			self.inpt.show()
+			self.openButton.show()
+			self.addP.show()
+			self.hidden = False
+			obj.is_transparent = True
+		else:
+			self.lbl.hide()
+			self.inpt.hide()
+			self.openButton.hide()
+			self.addP.hide()			
+			self.hidden = True
+			obj.is_transparent = False	
 
 
 class SOLID(QWidget):
@@ -182,19 +202,34 @@ class SOLID(QWidget):
 		self.initUI()
 
 	def initUI(self):
-		check = QCheckBox("Solid?")
-		addP  = QPushButton("Добавить точку")
-		vbox  = QVBoxLayout()
-		addP.setEnabled(False)
+		self.rightFrame = QFrame(self)
+		self.rightFrame.setFrameShape(QFrame.Box)
+		self.rightFrame.setFrameShadow(QFrame.Sunken)
+		self.check = QCheckBox("Solid?")
+		self.check.stateChanged.connect(self.Clicked)
+		self.check.setStyleSheet("font-weight: 550")
+		self.addP  = QPushButton("Добавить точку")
+		self.addP.hide()
+		vbox  = QVBoxLayout(self.rightFrame)
+		
 
-		vbox.addWidget(check)
-		vbox.addWidget(addP)
+		vbox.addWidget(self.check)
+		vbox.addWidget(self.addP)
 
 		hbox = QHBoxLayout()
 		#vbox.addStretch(1)
 		hbox.addLayout(vbox)
+		hbox.addWidget(self.rightFrame)
         
 		self.setLayout(hbox) 
+
+	def Clicked(self,state):
+		if state == Qt.Checked:
+			self.addP.show()
+			obj.is_solid = True
+		else:
+			self.addP.hide()			
+			obj.is_solid = False	
 
 
 class Example(QWidget):
@@ -204,37 +239,40 @@ class Example(QWidget):
         self.initUI()
         
     def initUI(self):
-        
-        tex  = TEXTURE()
-        usbl = USABLE() 
-        titl = TITLE()
-        trns = TRANSPARENT()
-        sld  = SOLID()
-        none1= QLabel()
-        none2= QLabel()
-        final= QPushButton("Создать")
-        lasth= QHBoxLayout()
+        self.spacer = QLabel()
 
-        lasth.addWidget(none1)
-        lasth.addWidget(final)
-        lasth.addWidget(none2)
+        self.tex  = TEXTURE()
+        self.usbl = USABLE() 
+        self.titl = TITLE()
+        self.trns = TRANSPARENT()
+        self.sld  = SOLID()
+        self.none1= QLabel()
+        self.none2= QLabel()
+        self.final= QPushButton("Создать")
+        self.lasth= QHBoxLayout()
 
-        vbox = QVBoxLayout()
-        vbox.addWidget(titl)
-        vbox.addWidget(tex)
+        self.lasth.addWidget(self.none1)
+        self.lasth.addWidget(self.final)
+        self.lasth.addWidget(self.none2)
 
-        vbox.addWidget(usbl)
-        vbox.addWidget(trns)
-        vbox.addWidget(sld)
-        vbox.addLayout(lasth)
+        self.vbox = QVBoxLayout()
+        self.vbox.addWidget(self.titl)
+        self.vbox.addWidget(self.tex)
+        self.vbox.addWidget(self.spacer)
 
-        hbox = QHBoxLayout()
+        self.vbox.addWidget(self.usbl)
+        self.vbox.addWidget(self.trns)
+        self.vbox.addWidget(self.sld)
+        self.vbox.addLayout(self.lasth)
+
+        self.hbox = QHBoxLayout()
         #hbox.addStretch(1)
-        hbox.addLayout(vbox)
+        self.hbox.addLayout(self.vbox)
         
-        final.clicked.connect(self.buttonClicked)
+        self.final.clicked.connect(self.buttonClicked)
+        self.tex.openButton.clicked.connect(self.setTexture)
 
-        self.setLayout(hbox)    
+        self.setLayout(self.hbox)    
         
         #self.setGeometry(300, 300, 300, 150)
         self.setWindowTitle('Buttons')    
@@ -245,8 +283,12 @@ class Example(QWidget):
     	s = json.dumps(obj, default=lambda x: x.__dict__)
     	print(s)
 
-        
-        
+    def setTexture(self):
+    	fname = QFileDialog.getOpenFileName(self, 'Open file', '/home')[0]
+    	self.tex.url.setText(fname)
+    	print(fname)
+
+             
 if __name__ == '__main__':
     
     #signal.signal(signal.SIGINT, signal.SIG_DFL)
