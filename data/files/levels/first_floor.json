@@ -5,7 +5,8 @@
 		{"object": "data/files/configs/first_floor_background.json", "position":[0,0]}
 	],
 	"npc":
-	[
 
+	[
+		"data/files/npc/batya.json"
 	]
 }

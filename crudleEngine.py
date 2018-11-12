@@ -283,7 +283,8 @@ class NPC(Dialogable,sf.Sprite,Usable):
         sf.Sprite.__init__(self,self.normal_texture)
         Usable.__init__(self,self.data['Action'])
         self.renderstate = sf.RenderStates()
-        self.selected_texture = sf.Texture.from_file("data/images/test_succub_npc_selected.png")
+        self.selected_texture = sf.Texture.from_file(self.data['Selected_Texture_file'])
+        #self.selected_texture = sf.Texture.from_file("data/images/test_succub_npc_selected.png")
         self.selected = False
         #self.activate()
         
@@ -629,6 +630,7 @@ class Dialog(State):
     """docstring for Dialog"""
 
     def __init__(self,target):
+        self.target = target
         self.background_image = sf.Sprite(sf.Texture.from_file(target.dialog_background))
         self.dialog_icon = sf.Sprite(sf.Texture.from_file(target.dialog_icon))
         self.label = target.label
@@ -666,6 +668,9 @@ class Dialog(State):
         self.label = self.next_label
         self.text.string = self.data[self.label]['text']
 
+    def setNext(self,label):
+        self.next_label = label
+        self.target.label = label
 
     def loadAnswers(self):
         self.answers = []

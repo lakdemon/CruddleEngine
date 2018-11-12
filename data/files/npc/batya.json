@@ -1,0 +1,10 @@
+{
+	"Name":              "Отец",
+	"Dialog_file":		 "data/files/dialogs/batya.json",
+	"Dialog_background": "data/images/default_dialog_background.png",
+	"Dialog_icon":       "data/images/batya_icon.png",
+	"Dialog_label": 	 "default",
+	"Texture_file": 	 "data/images/batya.png",
+	"Selected_Texture_file": 	 "data/images/batya_selected.png",
+	"Action":            "state_machine.addState(Dialog(self))"
+} 

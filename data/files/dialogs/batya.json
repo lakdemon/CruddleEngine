@@ -1,0 +1,57 @@
+{
+	"default":
+	{
+		"text": "Опять всё проспал? Как всегда!",
+		"answers": 
+		[
+			{"answer_text": "Нет (соврать)", "action": "self.dialog.next_label='lied'"},
+			{"answer_text": "Будильник не сработал", "action": "self.dialog.next_label='true'"}
+		]
+	},
+
+	"lied":
+	{
+		"text": "Ты так и не научился врать,щенок!",
+		"answers": 
+		[
+			{"answer_text": "Прости, папа..", "action": "self.dialog.next_label='preend'"}
+		]
+	},
+
+	"true":
+	{
+		"text": "Чего еще от тебя ожидать",
+		"answers": 
+		[
+			{"answer_text": "Прости, папа..", "action": "self.dialog.next_label='preend'"}
+		]
+	},
+
+	"preend":
+	{
+		"text": "Возьми себе чего нибудь пожрать...",
+		"answers": 
+		[
+			{"answer_text": "...", "action": "self.dialog.next_label='end'"}
+		]
+	},
+
+	"end":
+	{
+		"text": "И не возращайся сюда подольше",
+		"answers": 
+		[
+			{"answer_text": "Как скажешь", "action": "self.dialog.setNext('try_again') or state_machine.removeThisState()"}
+		]
+	},
+
+	"try_again":
+	{
+		"text": "Ты что оглох?!",
+		"answers": 
+		[
+			{"answer_text": "Я уже ухожу", "action": "self.dialog.setNext('try_again') or state_machine.removeThisState()"}
+		]
+	}
+
+}
