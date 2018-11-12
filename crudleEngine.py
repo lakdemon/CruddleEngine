@@ -418,12 +418,13 @@ class InventoryState(State):
         self.texture = sf.Texture.create(window.size.x,window.size.y)
         self.texture.update(window);
         self.sprite = sf.Sprite(self.texture)
-        self.background = sf.Sprite(sf.Texture.from_file("data/images/inventory_background.png"))
+        self.background = sf.Sprite(sf.Texture.from_file("data/images/inventory_background2.png"))
         codes = state_machine.states[len(state_machine.states)-1].player.inventory
         self.inventory = []
         for code in codes:
             self.inventory.append(InventoryObject(code))
-        begin = {'x':355,'y':162}
+        begin = {'x':505,'y':165}
+        #355,162
         self.offset = 57
         group_by = 10
         counter = -1

@@ -5,7 +5,7 @@ from PySide2.QtCore import *
 
 points = []
 
-class Example(QWidget):
+class AddPoint(QWidget):
     def __init__(self):
         super().__init__()
         fname = QFileDialog.getOpenFileName(self, 'Open file', '/home')[0]
@@ -51,6 +51,6 @@ class Example(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = Example()
+    ex = AddPoint()
     ex.show()
     sys.exit(app.exec_())
