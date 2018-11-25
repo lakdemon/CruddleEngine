@@ -1,12 +1,13 @@
 {
-	"level_name": "First floor",
+	"level_name": "Первый этаж",
 	"game_objects":
 	[
-		{"object": "data/files/configs/first_floor_background.json", "position":[0,0]}
+		{"object": "data/files/configs/first_floor_background.json", "position":[0,0]},
+		{"object": "data/files/configs/first_floor_door.json", "position":[700,1520]}
 	],
 	"npc":
 
 	[
-		"data/files/npc/batya.json"
+		{"npc": "data/files/npc/batya.json", "position":[950,1100]}
 	]
 }

@@ -1,5 +1,8 @@
 {
 	"texture": 		  "data/images/commodue.png",
-	"is_solid": 	  "false"							      ,
-	"is_transparent": "false"				  
+	"is_solid": 	  "true",
+	"x_solid":	[812,253,261,261,122,96,577,540,0,0,810,810],
+	"y_solid":	[294,617,625,695,777,787,1066,1103,783,690,218,290],
+	"is_transparent": "false",
+	"is_usable": "false"				  
 }

@@ -1,0 +1,12 @@
+{
+	"texture": 		  "data/images/first_floor_door.png",
+	"is_solid": 	  "false"						  ,
+	"is_transparent": "true",
+	"x_transparent": [0,125,125,0],
+	"y_transparent": [0,0,320,320],
+	"is_usable": 	  "true",
+	"x_usable":       [0,115,115,0],
+	"y_usable":       [0,0,350,350],
+	"usable_texture": "data/images/first_floor_door_selected.png",
+	"action":         "pass"
+}

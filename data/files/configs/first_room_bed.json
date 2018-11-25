@@ -1,5 +1,8 @@
 {
 	"texture": 		  "data/images/first_room_bed.png",
-	"is_solid": 	  "false"						  ,
-	"is_transparent": "false"
+	"is_solid": "true",
+	"x_solid": 	  [1127,1192,1231,997,1119,566, 630, 1427,809,812,1047,1029,1039],
+	"y_solid":    [544, 511, 530, 668,746, 1063,1107,611, 210,293,424, 434, 496],
+	"is_transparent": "false",
+	"is_usable": "false"
 }

@@ -41,7 +41,7 @@
 		"text": "И не возращайся сюда подольше",
 		"answers": 
 		[
-			{"answer_text": "Как скажешь", "action": "self.dialog.setNext('try_again') or state_machine.removeThisState()"}
+			{"answer_text": "Как скажешь", "action": "self.dialog.setNext('try_again') or state_machine.removeThisState() or QuestSystem.signal(SIGNAL.DIALOGENDED,PLAYER())"}
 		]
 	},
 
@@ -50,7 +50,7 @@
 		"text": "Ты что оглох?!",
 		"answers": 
 		[
-			{"answer_text": "Я уже ухожу", "action": "self.dialog.setNext('try_again') or state_machine.removeThisState()"}
+			{"answer_text": "Я уже ухожу", "action": "self.dialog.setNext('try_again') or state_machine.removeThisState() or QuestSystem.signal(SIGNAL.DIALOGENDED,PLAYER(),self)"}
 		]
 	}
 

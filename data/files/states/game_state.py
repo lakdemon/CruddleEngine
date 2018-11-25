@@ -25,6 +25,7 @@ def on_init(self):
 	self.sprite = sf.Sprite(self.texture)
 	self.filter = sf.Sprite(sf.Texture.from_file("data/images/filter.png"))
 	#self.test_npc = NPC("data/files/npc/testnpc.json")
+	QuestSystem.addQuest("data/files/quests/testquest.py")
 
 
 def on_event(self):
@@ -34,6 +35,9 @@ def on_event(self):
 		if event == sf.Event.KEY_PRESSED:
 			if event['code'] == sf.Keyboard.ESCAPE:
 				state_machine.addState(State("game_menu"))
+			if event['code'] == sf.Keyboard.LEFT:
+				print("STATE")
+				state_machine.addState(State("quests_state"))
 		if event == sf.Event.LOST_FOCUS:
 			state_machine.addState(State("game_menu"))
 		#if event == sf.Event.RESIZED:

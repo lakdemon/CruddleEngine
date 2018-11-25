@@ -3,7 +3,7 @@ import pyperclip
 import json
 import random
 import time
-
+from enum import Enum
 
 debug_mode = False
 
@@ -24,7 +24,12 @@ confirm_keys = [sf.Keyboard.SPACE,sf.Keyboard.RETURN]
 clock = sf.Clock()
 clock.restart()
 
-
+class SIGNAL(Enum):
+    DIALOGSTARTED = 1
+    DIALOGENDED   = 2
+    MONSTERKILLED = 3
+    OBJECTGIVEN   = 4
+    LEVELLOADED   = 5
 #------------------------------------------------------------------------------
 
 def teleport(level_name):
@@ -34,7 +39,15 @@ def PLAYER():
     try:
         return state_machine.lastState().player
     except Exception as e:
-       return state_machine.states[len(state_machine.states)-2].player
+        try:
+            return state_machine.states[len(state_machine.states)-2].player
+        except Exception as e:
+            print(e)
+        #else:
+        #    pass
+        #finally:
+        #    pass
+       #return state_machine.states[len(state_machine.states)-2].player
     #
 def group(iterable, count):
     return zip(*[iter(iterable)] * count)
@@ -75,6 +88,49 @@ class Trigger(object):
 
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
+
+class Quest(object):
+    """docstring for Quest"""
+    def __init__(self, path_to_config):
+        super(Quest, self).__init__()
+        self.finished = False
+        self.scope = {}
+        exec(open(path_to_config).read(),globals(), self.scope)
+        locals().update(self.scope)
+        self.scope['on_init'](self)
+
+    def update(self,signal,sender,reciver):
+        self.scope['on_update'](self,signal,sender,reciver)
+
+    def complete(self):
+        self.scope['on_complete'](self)
+
+    def finish(self):
+        self.scope['on_finish'](self)
+
+        
+
+class QuestSystem(object):
+    quests = []
+    
+    @staticmethod
+    def addQuest(quest_to_apped):
+        QuestSystem.quests.append(Quest(quest_to_apped))
+    
+    @staticmethod
+    def removeQuest(quest_to_delete):
+        QuestSystem.quests.remove(quest_to_delete)
+        
+    @staticmethod
+    def signal(signal,sender,reciver=None):
+        print("sended",signal,sender,reciver)
+        for quest in QuestSystem.quests:
+            quest.update(signal,sender,reciver)
+            if quest.finished:
+                QuestSystem.quests.remove(quest)
+
+
+
 
 class Animation(object):                                                    
     def __init__(self,animation_name,x_begin,y_begin,width,height,x_step,y_step,frame_count,speed):
@@ -271,7 +327,7 @@ class Usable(object):
 #------------------------------------------------------------------------------
 
 class NPC(Dialogable,sf.Sprite,Usable):                                     
-    def __init__(self,config_file):
+    def __init__(self,config_file,pos=[0,0]):
         with open(config_file) as data_file:    
             self.data = json.load(data_file)
         Dialogable.__init__(self,dialog_background=self.data['Dialog_background'],
@@ -286,6 +342,7 @@ class NPC(Dialogable,sf.Sprite,Usable):
         self.selected_texture = sf.Texture.from_file(self.data['Selected_Texture_file'])
         #self.selected_texture = sf.Texture.from_file("data/images/test_succub_npc_selected.png")
         self.selected = False
+        self.setPosition(*pos)
         #self.activate()
         
     def draw(self, target, states):
@@ -302,6 +359,9 @@ class NPC(Dialogable,sf.Sprite,Usable):
             if not (player.magic_hand.position.x>self.position.x and player.magic_hand.position.y>self.position.y and player.magic_hand.position.x<self.position.x+self.texture.width and player.magic_hand.position.y<self.position.y+self.texture.height):
                 self.selected = False
                 self.texture = self.normal_texture
+
+    def setPosition(self,x,y):
+        self.position = [x,y]
 
 #------------------------------------------------------------------------------
 
@@ -821,7 +881,7 @@ class GameObject(sf.Drawable,Usable):
         try:
             data = data[state]
         except Exception as e:
-            print("Object have no states")
+            print("Object ",self," have no states")
 
         self.texture = sf.Texture.from_file(data['texture'])
         self.sprite = sf.Sprite(self.texture)
@@ -839,8 +899,10 @@ class GameObject(sf.Drawable,Usable):
             self.is_transparent = False
             self.x_transparent  = data["x_transparent"]
             self.y_transparent  = data["y_transparent"]
-            self.transparent_texture = sf.Texture.from_file(data['transparent_texture'])
-        else:
+            try:
+                self.transparent_texture = sf.Texture.from_file(data['transparent_texture'])
+            except Exception as e:
+                self.transparent_texture = self.texture
             self.is_transparent = False
      
         try:
@@ -859,6 +921,8 @@ class GameObject(sf.Drawable,Usable):
 
         self.setPosition(*position)
 
+    def setAction(self,act):
+        self.action = act
 
     def update(self,player,time):
         x_pos = player.sprite.position.x
@@ -960,7 +1024,12 @@ class Level(sf.Drawable):
         for g_object in self.data['game_objects']:
             self.game_objects.append(GameObject(g_object['object'],position=g_object['position']))
         for f_npc in self.data['npc']:
-            self.npcs.append(NPC(f_npc))
+            try:
+                npc = f_npc['npc']
+                pos = f_npc['position']
+                self.npcs.append(NPC(npc,pos))
+            except Exception as e:
+                self.npcs.append(NPC(f_npc))
 
         self.floating_name = sf.Text(self.name,sf.Font.from_file("data/files/fonts/Bricks.otf"),100)
         self.time_of_text_live = 250
@@ -1012,7 +1081,13 @@ class Level(sf.Drawable):
         for g_object in self.data['game_objects']:
             self.game_objects.append(GameObject(g_object['object'],position=g_object['position']))
         for f_npc in self.data['npc']:
-            self.npcs.append(NPC(f_npc))
+            try:
+                npc = f_npc['npc']
+                pos = f_npc['position']
+                self.npcs.append(NPC(npc,pos))
+            except Exception as e:
+                print(e)
+                self.npcs.append(NPC(f_npc))
         self.floating_name = sf.Text(self.name,sf.Font.from_file("data/files/fonts/Bricks.otf"),100)
         self.time_of_text_live = 250
 
